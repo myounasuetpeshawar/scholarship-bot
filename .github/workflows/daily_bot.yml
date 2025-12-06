@@ -1,0 +1,30 @@
+name: Daily Scholarship Bot
+
+on:
+  schedule:
+    # Every day at 8 AM UTC
+    - cron: '0 8 * * *'
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install requests beautifulsoup4
+
+      - name: Run Scholarship Bot
+        env:
+          YOUR_EMAIL: ${{ secrets.YOUR_EMAIL }}
+          APP_PASSWORD: ${{ secrets.APP_PASSWORD }}
+          TO_EMAIL: ${{ secrets.TO_EMAIL }}
+        run: |
+          python bot.py
